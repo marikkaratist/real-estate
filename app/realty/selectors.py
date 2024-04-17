@@ -10,6 +10,6 @@ class FlatSelector:
 
     @staticmethod
     def get_flat(pk):
-        flat = Flat.objects.get(pk)
+        flat = Flat.objects.select_related("number").get(pk)
 
         return flat
