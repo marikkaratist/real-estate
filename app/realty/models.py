@@ -16,8 +16,8 @@ class Flat(models.Model):
     COURTYARD = "courtyard"
     STREET_OUTSIDE = "street_outside"
     WINDOW_VIEWS = [
-        ("courtyard", "внутренний двор"),
-        ("street_outside", "внешняя улица")
+        (COURTYARD, "внутренний двор"),
+        (STREET_OUTSIDE, "внешняя улица")
     ]
 
     ON_GROUND = "on_ground"
