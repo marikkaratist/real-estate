@@ -1,4 +1,4 @@
-.idea/репозитория
+.idea/
 *.env*
 *.sqlite3
 __pycache__/
