@@ -41,7 +41,7 @@ class Flat(models.Model):
     parking = models.CharField(max_length=50, choices=PARKING_CHOICES, default=ON_GROUND)
     is_complete = models.BooleanField(default=False)
     has_kitchen = models.BooleanField()
-    floor = models.ManyToManyField(Floor)
+    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name = "Квартира"

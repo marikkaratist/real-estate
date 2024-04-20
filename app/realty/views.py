@@ -45,9 +45,9 @@ class FlatDetailApi(APIView):
         parking = serializers.CharField()
         is_complete = serializers.BooleanField()
         has_kitchen = serializers.BooleanField()
-        floor = serializers.SlugRelatedField(
+        floor = serializers.CharField(
             read_only=True,
-            slug_field="number"
+            source="floor"
         )
 
     def get(self, request, pk):
