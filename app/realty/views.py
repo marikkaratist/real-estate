@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from realty.selectors import FlatSelector
+from realty.selectors import FlatSelector, FloorSelector
 
 
 class FlatListApi(APIView):
@@ -30,7 +30,7 @@ class FlatListApi(APIView):
 
 
 class FlatDetailApi(APIView):
-    class FlatListSerializer(serializers.Serializer):
+    class FlatDetailSerializer(serializers.Serializer):
         id = serializers.IntegerField()
         name = serializers.CharField(max_length=120)
         price = serializers.IntegerField()
@@ -56,3 +56,21 @@ class FlatDetailApi(APIView):
         data = self.FlatListSerializer(flat).data
 
         return Response(data)
+
+
+class FloorListApi(APIView):
+    class FloorListSerializer(serializers.Serializer):
+        id = serializers.IntegerField()
+        number = serializers.IntegerField()
+        flats = serializers.IntegerField()
+
+    def get(self, request):
+        floors = FloorSelector.get_floors()
+
+        data = self.FloorListSerializer(floors, many=True).data
+
+        return Response(data)
+
+
+class FloorDetailApi(APIView):
+    pass
