@@ -1,12 +1,23 @@
 from django.db import models
 
 
+class Floor(models.Model):
+    number = models.PositiveSmallIntegerField()
+
+    class Meta:
+        verbose_name = "Этаж"
+        verbose_name_plural = "Этажи"
+
+    def __str__(self):
+        return self.number
+
+
 class Flat(models.Model):
     COURTYARD = "courtyard"
     STREET_OUTSIDE = "street_outside"
     WINDOW_VIEWS = [
-        ("courtyard", "внутренний двор"),
-        ("street_outside", "внешняя улица")
+        (COURTYARD, "внутренний двор"),
+        (STREET_OUTSIDE, "внешняя улица")
     ]
 
     ON_GROUND = "on_ground"
@@ -30,3 +41,11 @@ class Flat(models.Model):
     parking = models.CharField(max_length=50, choices=PARKING_CHOICES, default=ON_GROUND)
     is_complete = models.BooleanField(default=False)
     has_kitchen = models.BooleanField()
+    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = "Квартира"
+        verbose_name_plural = "Квартиры"
+
+    def __str__(self):
+        return self.name

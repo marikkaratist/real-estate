@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'realty.apps.RealtyConfig'
+    'realty',
     'drf_spectacular'
 ]
 
@@ -89,12 +89,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Hunting API',
-    'DESCRIPTION': 'Awesome hunting project',
+    'TITLE': 'Real-estate API',
+    'DESCRIPTION': 'Estate flat for estate people',
     'VERSION': '1.0.0',
 }
