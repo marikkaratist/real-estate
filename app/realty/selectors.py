@@ -23,10 +23,22 @@ class FlatSelector:
 class FloorSelector:
     @staticmethod
     def get_floors():
-        floors = Floor.objects.annotate(flats=Count("flat"))
+        floors = Floor.objects.annotate(flats_count=Count("flat"))
 
         return floors
 
     @staticmethod
     def get_floor_detail(pk):
-        pass
+        try:
+            floor = Floor.object.get(id=pk)
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
+            return None
+
+        flats = list(floor.flat_set.all())
+
+        data = {
+            "number": floor.number,
+            "flats": flats
+        }
+
+        return data

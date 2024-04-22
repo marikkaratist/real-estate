@@ -62,7 +62,7 @@ class FloorListApi(APIView):
     class FloorListSerializer(serializers.Serializer):
         id = serializers.IntegerField()
         number = serializers.IntegerField()
-        flats = serializers.IntegerField()
+        flats_count = serializers.IntegerField()
 
     def get(self, request):
         floors = FloorSelector.get_floors()
@@ -73,4 +73,14 @@ class FloorListApi(APIView):
 
 
 class FloorDetailApi(APIView):
-    pass
+    class FloorDetailSerializer(serializers.Serializer):
+        id = serializers.IntegerField()
+        number = serializers.IntegerField()
+        flats = serializers.ListSerializer(many=True)
+
+    def get(self, request, pk):
+        floor = FloorSelector.get_floor_detail(pk)
+
+        data = self.FloorDetailSerializer(floor).data
+
+        return data
