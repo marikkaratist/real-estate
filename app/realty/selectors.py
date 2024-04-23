@@ -1,8 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django.core.paginator import Paginator
 from django.db.models import Count
 
-from config import settings
 from realty.models import Flat, Floor
 
 
@@ -30,7 +28,7 @@ class FloorSelector:
     @staticmethod
     def get_floor_detail(pk):
         try:
-            floor = Floor.object.get(id=pk)
+            floor = Floor.object.prefetch_related("flat_set").get(id=pk)
         except (ObjectDoesNotExist, MultipleObjectsReturned):
             return None
 
