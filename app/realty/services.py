@@ -13,10 +13,6 @@ def flat_create(**kwargs) -> Flat:
         if key not in kwargs:
             raise ValueError(f'Missing required argument: {key}')
 
-    # Получаем объект Floor по его идентификатору
-    floor_id = kwargs['floor_id']
-    floor = Floor.objects.get(id=floor_id)
-
     # Создаем объект Flat
     obj = Flat(
         name=kwargs['name'],
@@ -31,7 +27,7 @@ def flat_create(**kwargs) -> Flat:
         parking=kwargs['parking'],
         is_complete=kwargs['is_complete'],
         has_kitchen=kwargs['has_kitchen'],
-        floor=floor  # Передаем объект Floor
+        floor_id=kwargs['floor_id']
     )
 
     # Проверяем и сохраняем объект Flat
