@@ -10,13 +10,9 @@ class FlatDetailSerializer(serializers.Serializer):
     rooms = serializers.IntegerField()
     view_from_windows = serializers.CharField()
     lavatory = serializers.IntegerField()
-    level = serializers.IntegerField()
     elevator = serializers.IntegerField()
     year_of_sale = serializers.IntegerField()
     parking = serializers.CharField()
     is_complete = serializers.BooleanField()
     has_kitchen = serializers.BooleanField()
-    floor = serializers.CharField(
-        read_only=True,
-        source="floor"
-    )
+    floor = serializers.CharField()

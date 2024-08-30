@@ -9,7 +9,7 @@ class Floor(models.Model):
         verbose_name_plural = "Этажи"
 
     def __str__(self):
-        return self.number
+        return str(self.number)
 
 
 class Flat(models.Model):
@@ -35,13 +35,12 @@ class Flat(models.Model):
     rooms = models.PositiveIntegerField()
     view_from_windows = models.CharField(max_length=120, choices=WINDOW_VIEWS, default=COURTYARD, blank=True)
     lavatory = models.PositiveIntegerField()
-    level = models.PositiveIntegerField()
     elevator = models.PositiveIntegerField()
     year_of_sale = models.PositiveIntegerField()
     parking = models.CharField(max_length=50, choices=PARKING_CHOICES, default=ON_GROUND)
     is_complete = models.BooleanField(default=False)
     has_kitchen = models.BooleanField()
-    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, null=True)
+    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, related_name="flats", null=True)
 
     class Meta:
         verbose_name = "Квартира"

@@ -1,14 +1,40 @@
-from realty.models import Flat
+from realty.models import Flat, Floor
 
 
-def flat_create(*, name: str, price: int, overall_square: int, living_square: int, rooms: int, view_from_windows: str,
-                lavatory: int, level: int, elevator: int, year_of_sale: int, parking: str, is_complete: bool,
-                has_kitchen: bool) -> Flat:
+def flat_create(**kwargs) -> Flat:
+    required_keys = [
+        'name', 'price', 'overall_square', 'living_square', 'rooms',
+        'view_from_windows', 'lavatory', 'elevator',
+        'year_of_sale', 'parking', 'is_complete', 'has_kitchen', 'floor_id'
+    ]
 
-    obj = Flat(name=name, price=price, overall_square=overall_square, living_square=living_square, rooms=rooms,
-               view_from_windows=view_from_windows, lavatory=lavatory, level=level, elevator=elevator,
-               year_of_sale=year_of_sale, parking=parking, is_complete=is_complete, has_kitchen=has_kitchen)
+    # Проверяем наличие всех обязательных аргументов
+    for key in required_keys:
+        if key not in kwargs:
+            raise ValueError(f'Missing required argument: {key}')
 
+    # Получаем объект Floor по его идентификатору
+    floor_id = kwargs['floor_id']
+    floor = Floor.objects.get(id=floor_id)
+
+    # Создаем объект Flat
+    obj = Flat(
+        name=kwargs['name'],
+        price=kwargs['price'],
+        overall_square=kwargs['overall_square'],
+        living_square=kwargs['living_square'],
+        rooms=kwargs['rooms'],
+        view_from_windows=kwargs['view_from_windows'],
+        lavatory=kwargs['lavatory'],
+        elevator=kwargs['elevator'],
+        year_of_sale=kwargs['year_of_sale'],
+        parking=kwargs['parking'],
+        is_complete=kwargs['is_complete'],
+        has_kitchen=kwargs['has_kitchen'],
+        floor=floor  # Передаем объект Floor
+    )
+
+    # Проверяем и сохраняем объект Flat
     obj.full_clean()
     obj.save()
 

@@ -17,7 +17,6 @@ class FlatListApi(APIView):
         rooms = serializers.IntegerField()
         view_from_windows = serializers.CharField()
         lavatory = serializers.IntegerField()
-        level = serializers.IntegerField()
         elevator = serializers.IntegerField()
         year_of_sale = serializers.IntegerField()
         parking = serializers.CharField()
@@ -33,6 +32,7 @@ class FlatListApi(APIView):
 
 
 class FlatDetailApi(APIView):
+
     def get(self, request, pk):
         flat = FlatSelector.get_flat(pk=pk)
 
@@ -50,20 +50,24 @@ class FlatCreateApi(CreateModelMixin, APIView):
         rooms = serializers.IntegerField()
         view_from_windows = serializers.CharField()
         lavatory = serializers.IntegerField()
-        level = serializers.IntegerField()
         elevator = serializers.IntegerField()
         year_of_sale = serializers.IntegerField()
         parking = serializers.CharField()
         is_complete = serializers.BooleanField()
         has_kitchen = serializers.BooleanField()
+        floor_id = serializers.IntegerField()
 
     def post(self, request):
         serializer = self.FlatSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        flat_create(**serializer.validated_data)
+        new_flat = flat_create(**serializer.validated_data)
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({"id": new_flat.id,
+                         "name": new_flat.name,
+                         "year_of_sale": new_flat.year_of_sale,
+                         "floor_id": new_flat.floor_id},
+                        status=status.HTTP_201_CREATED)
 
 
 class FloorListApi(APIView):
@@ -91,4 +95,4 @@ class FloorDetailApi(APIView):
 
         data = self.FloorDetailSerializer(floor).data
 
-        return data
+        return Response(data)

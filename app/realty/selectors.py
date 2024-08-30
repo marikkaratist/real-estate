@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 
 from realty.models import Flat, Floor
 
@@ -13,7 +14,7 @@ class FlatSelector:
 
     @staticmethod
     def get_flat(pk):
-        flat = Flat.objects.select_related("floor").get_object_or_404(pk)
+        flat = get_object_or_404(Flat.objects.select_related("floor"), pk=pk)
 
         return flat
 
@@ -21,22 +22,15 @@ class FlatSelector:
 class FloorSelector:
     @staticmethod
     def get_floors():
-        floors = Floor.objects.annotate(flats_count=Count("flat"))
+        floors = Floor.objects.annotate(flats_count=Count("flats"))
 
         return floors
 
     @staticmethod
     def get_floor_detail(pk):
         try:
-            floor = Floor.object.prefetch_related("flat_set").get(id=pk)
+            floor = Floor.objects.prefetch_related("flats").get(pk=pk)
         except (ObjectDoesNotExist, MultipleObjectsReturned):
             return None
 
-        flats = list(floor.flat_set.all())
-
-        data = {
-            "number": floor.number,
-            "flats": flats
-        }
-
-        return data
+        return floor
