@@ -1,15 +1,16 @@
-from realty.models import Flat, Floor
+from realty.models import Flat
+
+REQUIRED_KEYS = [
+    'name', 'price', 'overall_square', 'living_square', 'rooms',
+    'view_from_windows', 'lavatory', 'elevator',
+    'year_of_sale', 'parking', 'is_complete', 'has_kitchen', 'floor_id'
+]
 
 
 def flat_create(**kwargs) -> Flat:
-    required_keys = [
-        'name', 'price', 'overall_square', 'living_square', 'rooms',
-        'view_from_windows', 'lavatory', 'elevator',
-        'year_of_sale', 'parking', 'is_complete', 'has_kitchen', 'floor_id'
-    ]
 
     # Проверяем наличие всех обязательных аргументов
-    for key in required_keys:
+    for key in REQUIRED_KEYS:
         if key not in kwargs:
             raise ValueError(f'Missing required argument: {key}')
 
