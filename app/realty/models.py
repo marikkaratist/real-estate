@@ -12,6 +12,25 @@ class Floor(models.Model):
         return str(self.number)
 
 
+class Section(models.Model):
+    STANDART = "standard"
+    PENTHOUS = "penthous"
+
+    STYLE_SECTIONS = [
+        (STANDART, "стандарт"),
+        (PENTHOUS, "пентхаус")
+    ]
+
+    name = models.CharField(max_length=80, choices=STYLE_SECTIONS, default=STANDART)
+
+    class Meta:
+        verbose_name = "Секция"
+        verbose_name_plural = "Секции"
+
+    def __str__(self):
+        return str(self.name)
+
+
 class Flat(models.Model):
     COURTYARD = "courtyard"
     STREET_OUTSIDE = "street_outside"
@@ -41,6 +60,7 @@ class Flat(models.Model):
     is_complete = models.BooleanField(default=False)
     has_kitchen = models.BooleanField()
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE, related_name="flats", null=True)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="flats", null=True)
 
     class Meta:
         verbose_name = "Квартира"
